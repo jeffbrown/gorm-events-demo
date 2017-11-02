@@ -13,7 +13,7 @@ class AuditListener {
     @Listener(Audited)
     void validateEvent(ValidationEvent event) {
         Audited entity = event.entityObject as Audited
-        if(!entity.isAttached()) {
+        if(!entity.createdBy) {
             log.debug "Setting createdBy for instance [${entity}]"
             // Could get user info from security context, etc...
             entity.createdBy = 'some-user-id'
