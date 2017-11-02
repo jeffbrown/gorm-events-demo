@@ -4,6 +4,7 @@ import gorm.events.demo.audit.Audited
 import gorm.events.demo.auth.User
 import grails.events.annotation.gorm.Listener
 import grails.plugin.springsecurity.SpringSecurityService
+import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.grails.datastore.mapping.engine.event.ValidationEvent
@@ -21,7 +22,12 @@ class AuditListener {
         Audited entity = (Audited)event.entityObject
         if(!entity.createdBy) {
             log.debug "Setting createdBy for instance [${entity}]"
-            entity.createdBy = ((User)springSecurityService.currentUser)?.username
+            entity.createdBy = loggedUsername()
         }
+    }
+
+    @CompileDynamic
+    String loggedUsername() {
+        springSecurityService.principal.username
     }
 }
