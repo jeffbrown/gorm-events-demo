@@ -1,8 +1,10 @@
 package gorm.events.demo
 
+import grails.plugin.springsecurity.annotation.Secured
 import grails.validation.ValidationException
 import static org.springframework.http.HttpStatus.*
 
+@Secured('ROLE_USER')
 class PersonController {
 
     PersonService personService

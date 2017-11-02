@@ -1,15 +1,22 @@
 package gorm.events.demo
 
+import gorm.events.demo.auth.Role
+import gorm.events.demo.auth.User
+import gorm.events.demo.auth.UserRole
+
 class BootStrap {
 
     def init = { servletContext ->
-        new Person(firstName: 'Geddy', lastName: 'Lee').save()
-        new Person(firstName: 'Alex', lastName: 'Lifeson').save()
-        new Person(firstName: 'Neil', lastName: 'Peart').save()
+        def userRole = new Role(authority: 'ROLE_USER').save()
 
-        new Car(make: 'Ford', model: 'Fusion').save()
-        new Car(make: 'Chevy', model: 'Equinox').save()
+        def geddyUser = new User(username: 'geddy', password: 'password').save()
+        UserRole.create geddyUser, userRole
+        def neilUser = new User(username: 'neil', password: 'password').save()
+        UserRole.create neilUser, userRole
+        def alexUser = new User(username: 'alex', password: 'password').save()
+        UserRole.create alexUser, userRole
     }
+
     def destroy = {
     }
 }

@@ -36,6 +36,9 @@
             </div>
         </div>
     </div>
+    <sec:ifLoggedIn>
+        Click <g:link uri="/logoff">here</g:link> to logout.
+    </sec:ifLoggedIn>
 
     <g:layoutBody/>
 
