@@ -27,7 +27,7 @@
             </g:hasErrors>
             <g:form resource="${this.car}" method="POST">
                 <fieldset class="form">
-                    <f:all except="createdBy" bean="car"/>
+                    <f:all except="createdBy, lastUpdatedBy" bean="car"/>
                 </fieldset>
                 <fieldset class="buttons">
                     <g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" />

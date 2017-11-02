@@ -11,6 +11,7 @@ class CarShowPage extends Page {
     static content = {
         deleteButton { $('input.delete', 0) }
         createdByDiv { $('li.fieldcontain', text: contains('Created By')).children('div.property-value') }
+        lastUpdatedDiv { $('li.fieldcontain', text: contains('Last Updated By')).children('div.property-value') }
         makeDiv { $('li.fieldcontain', text: contains('Make')).children('div.property-value') }
         modelDiv { $('li.fieldcontain', text: contains('Model')).children('div.property-value') }
         logoutLink { $('#logout', 0) }
@@ -22,6 +23,10 @@ class CarShowPage extends Page {
 
     String createdBy() {
         createdByDiv.text()
+    }
+
+    String lastUpdatedBy() {
+        lastUpdatedDiv.text()
     }
 
     String make() {

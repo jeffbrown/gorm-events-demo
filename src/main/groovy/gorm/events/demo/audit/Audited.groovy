@@ -8,4 +8,5 @@ trait Audited {
     Date dateCreated
     Date lastUpdated
     String createdBy
+    String lastUpdatedBy
 }

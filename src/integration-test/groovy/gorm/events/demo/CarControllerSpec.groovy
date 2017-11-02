@@ -14,12 +14,15 @@ class CarControllerSpec extends GebSpec {
 
     def setup() {
         User.withTransaction {
-            User user = User.where { username == 'sherlock' }.get() ?: new User(username: 'sherlock', password: 'elementary')
-            user.save()
+            User sherlock = User.where { username == 'sherlock' }.get() ?: new User(username: 'sherlock', password: 'elementary')
+            sherlock.save()
+            User watson = User.where { username == 'watson' }.get() ?: new User(username: 'watson', password: 'elementary')
+            watson.save()
             Role role = Role.where { authority == 'ROLE_USER' }.get() ?: new Role(authority: 'ROLE_USER')
             role.save()
-            UserRole userRole = new UserRole(user: user, role: role)
-            userRole.save()
+
+            UserRole.create sherlock, role
+            UserRole.create watson, role
         }
     }
 
@@ -47,7 +50,10 @@ class CarControllerSpec extends GebSpec {
 
         then: 'he gets redirected to the car listing page'
         at CarShowPage
+
+        and:
         createdBy() == 'sherlock'
+        lastUpdatedBy() == 'sherlock'
         make() == 'Audi'
         model() == 'A3'
 
@@ -57,6 +63,31 @@ class CarControllerSpec extends GebSpec {
         then:
         carId
         noExceptionThrown()
+
+        when:
+        logout()
+        go "/car/edit/${carId}"
+
+        then: 'it is redirected to login page'
+        at LoginPage
+
+        when: 'signs in with a ROLE_USER roel'
+        login('watson', 'elementary')
+
+        then: 'he gets access to the car listing page'
+        at CarEditPage
+
+        when:
+        updateCar 'Ford', 'Fusion'
+
+        then: 'he gets redirected to the car listing page'
+        at CarShowPage
+
+        and:
+        createdBy() == 'sherlock'
+        lastUpdatedBy() == 'watson'
+        make() == 'Ford'
+        model() == 'Fusion'
 
         when:
         if ( browser.driver instanceof HtmlUnitDriver ) {
