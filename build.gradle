@@ -55,11 +55,11 @@ dependencies {
     testCompile "org.grails:grails-gorm-testing-support"
     testCompile "org.grails.plugins:geb"
     testCompile "org.grails:grails-web-testing-support"
-    testRuntime "org.seleniumhq.selenium:selenium-htmlunit-driver:2.47.1"
+    testCompile "org.seleniumhq.selenium:selenium-htmlunit-driver:2.47.1"
     testRuntime "net.sourceforge.htmlunit:htmlunit:2.18"
+    testCompile "org.seleniumhq.selenium:selenium-firefox-driver:2.53.1"
 
     compile 'org.grails.plugins:spring-security-core:3.2.0'
-    compile 'org.grails.plugins:spring-security-ui:3.1.1'
 }
 
 bootRun {
@@ -67,6 +67,9 @@ bootRun {
     addResources = true
 }
 
+integrationTest {
+    systemProperties System.properties
+}
 
 assets {
     minifyJs = true
