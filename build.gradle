@@ -57,6 +57,7 @@ dependencies {
     testCompile "org.grails:grails-web-testing-support"
     testCompile "org.seleniumhq.selenium:selenium-htmlunit-driver:2.47.1"
     testRuntime "net.sourceforge.htmlunit:htmlunit:2.18"
+    testCompile "org.seleniumhq.selenium:selenium-firefox-driver:2.53.1"
 
     compile 'org.grails.plugins:spring-security-core:3.2.0'
 }
@@ -66,6 +67,9 @@ bootRun {
     addResources = true
 }
 
+integrationTest {
+    systemProperties System.properties
+}
 
 assets {
     minifyJs = true
